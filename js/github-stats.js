@@ -12,7 +12,7 @@
     }
 
     // Helper to create card elements
-    function createCard(title, value) {
+    function createCard(title, value, category = 'default') {
         const card = document.createElement('div');
         card.style.border = '1px solid #e1e4e8';
         card.style.borderRadius = '8px';
@@ -20,18 +20,53 @@
         card.style.margin = '8px';
         card.style.flex = '1 1 calc(33% - 16px)';
         card.style.boxSizing = 'border-box';
-        card.style.background = '#fafbfc';
+        card.style.transition = 'transform 0.2s ease, box-shadow 0.2s ease';
+
+        // カテゴリ別の色分け
+        switch (category) {
+            case 'account':
+                card.style.background = 'linear-gradient(135deg, #f6f8fa 0%, #e1e4e8 100%)';
+                card.style.borderColor = '#d0d7de';
+                break;
+            case 'repository':
+                card.style.background = 'linear-gradient(135deg, #fff8e3 0%, #f6f1e0 100%)';
+                card.style.borderColor = '#e6d5b8';
+                break;
+            case 'social':
+                card.style.background = 'linear-gradient(135deg, #e6f7ff 0%, #d6f0ff 100%)';
+                card.style.borderColor = '#91caff';
+                break;
+            case 'code':
+                card.style.background = 'linear-gradient(135deg, #f0f9e8 0%, #e6f4dc 100%)';
+                card.style.borderColor = '#b7eb8f';
+                break;
+            default:
+                card.style.background = '#fafbfc';
+        }
+
+        // ホバー効果
+        card.addEventListener('mouseenter', () => {
+            card.style.transform = 'translateY(-2px)';
+            card.style.boxShadow = '0 4px 12px rgba(0,0,0,0.15)';
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'translateY(0)';
+            card.style.boxShadow = '0 1px 3px rgba(0,0,0,0.1)';
+        });
 
         const h3 = document.createElement('h3');
         h3.textContent = title;
         h3.style.margin = '0 0 8px';
         h3.style.fontSize = '1.1em';
+        h3.style.color = '#333';
 
         const p = document.createElement('p');
         p.textContent = value;
         p.style.margin = '0';
         p.style.fontSize = '1.5em';
         p.style.fontWeight = 'bold';
+        p.style.color = '#0366d6';
 
         card.appendChild(h3);
         card.appendChild(p);
@@ -73,28 +108,28 @@
         let originalRepos = 0;
         const langCount = {};
         const recentRepos = [];
-        
+
         repos.forEach(repo => {
             totalStars += repo.stargazers_count;
             totalForks += repo.forks_count;
             totalWatchers += repo.watchers_count;
             totalIssues += repo.open_issues_count;
             totalSize += repo.size;
-            
+
             if (repo.fork) {
                 forkedRepos++;
             } else {
                 originalRepos++;
             }
-            
+
             if (!repo.private) {
                 publicRepos++;
             }
-            
+
             if (repo.language) {
                 langCount[repo.language] = (langCount[repo.language] || 0) + 1;
             }
-            
+
             // 最近更新されたリポジトリ（上位5つ）
             if (recentRepos.length < 5) {
                 recentRepos.push({
@@ -105,23 +140,31 @@
                 });
             }
         });
-        
+
         // 最近更新されたリポジトリを日付順にソート
         recentRepos.sort((a, b) => b.updated - a.updated);
 
         // Build cards
         container.innerHTML = ''; // Clear loading message
-        container.appendChild(createCard('Public Repos', publicRepos));
-        container.appendChild(createCard('Original Repos', originalRepos));
-        container.appendChild(createCard('Forked Repos', forkedRepos));
-        container.appendChild(createCard('Total Stars', totalStars));
-        container.appendChild(createCard('Total Forks', totalForks));
-        container.appendChild(createCard('Followers', user.followers));
-        container.appendChild(createCard('Following', user.following));
-        container.appendChild(createCard('Open Issues', totalIssues));
-        container.appendChild(createCard('Total Size', `${(totalSize / 1024).toFixed(1)} MB`));
 
-        // Language distribution list
+        // Account info
+        const accountAge = Math.floor((new Date() - new Date(user.created_at)) / (1000 * 60 * 60 * 24 * 365.25));
+        container.appendChild(createCard('Account Age', `${accountAge} years`, 'account'));
+
+        // Repository stats
+        container.appendChild(createCard('Public Repos', publicRepos, 'repository'));
+        container.appendChild(createCard('Original Repos', originalRepos, 'repository'));
+        container.appendChild(createCard('Forked Repos', forkedRepos, 'repository'));
+
+        // Social stats
+        container.appendChild(createCard('Followers', user.followers, 'social'));
+        container.appendChild(createCard('Following', user.following, 'social'));
+
+        // Code stats
+        container.appendChild(createCard('Total Stars', totalStars, 'code'));
+        container.appendChild(createCard('Total Forks', totalForks, 'code'));
+        container.appendChild(createCard('Open Issues', totalIssues, 'code'));
+        container.appendChild(createCard('Total Size', `${(totalSize / 1024).toFixed(1)} MB`, 'code'));        // Language distribution list
         const langCard = document.createElement('div');
         langCard.style.border = '1px solid #e1e4e8';
         langCard.style.borderRadius = '8px';
@@ -149,6 +192,60 @@
             });
         langCard.appendChild(ul);
         container.appendChild(langCard);
+
+        // Recent repositories card
+        if (recentRepos.length > 0) {
+            const recentCard = document.createElement('div');
+            recentCard.style.border = '1px solid #e1e4e8';
+            recentCard.style.borderRadius = '8px';
+            recentCard.style.padding = '16px';
+            recentCard.style.margin = '8px';
+            recentCard.style.flex = '1 1 100%';
+            recentCard.style.boxSizing = 'border-box';
+            recentCard.style.background = '#fafbfc';
+
+            const hr = document.createElement('h3');
+            hr.textContent = 'Recently Updated';
+            hr.style.margin = '0 0 8px';
+            hr.style.fontSize = '1.1em';
+            recentCard.appendChild(hr);
+
+            const recentList = document.createElement('div');
+            recentList.style.display = 'grid';
+            recentList.style.gap = '8px';
+
+            recentRepos.slice(0, 3).forEach(repo => {
+                const repoDiv = document.createElement('div');
+                repoDiv.style.padding = '8px';
+                repoDiv.style.background = '#ffffff';
+                repoDiv.style.border = '1px solid #e1e4e8';
+                repoDiv.style.borderRadius = '4px';
+                repoDiv.style.fontSize = '14px';
+
+                const repoName = document.createElement('strong');
+                repoName.textContent = repo.name;
+                repoName.style.color = '#0366d6';
+
+                const repoInfo = document.createElement('div');
+                repoInfo.style.color = '#666';
+                repoInfo.style.fontSize = '12px';
+                repoInfo.style.marginTop = '4px';
+
+                const parts = [];
+                if (repo.language) parts.push(`${repo.language}`);
+                if (repo.stars > 0) parts.push(`⭐ ${repo.stars}`);
+                parts.push(`Updated: ${repo.updated.toLocaleDateString('ja-JP')}`);
+
+                repoInfo.textContent = parts.join(' • ');
+
+                repoDiv.appendChild(repoName);
+                repoDiv.appendChild(repoInfo);
+                recentList.appendChild(repoDiv);
+            });
+
+            recentCard.appendChild(recentList);
+            container.appendChild(recentCard);
+        }
 
     } catch (err) {
         console.error('GitHub Stats Error:', err);

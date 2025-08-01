@@ -63,6 +63,24 @@ details[open] div {
   }
 }
 
+/* GitHub Stats カードのレスポンシブ調整 */
+@media (max-width: 680px) {
+  #github-stats > div {
+    flex: 1 1 calc(50% - 16px) !important;
+    min-width: 120px;
+  }
+  
+  #github-stats > div:nth-child(n+7) {
+    flex: 1 1 100% !important;
+  }
+}
+
+@media (max-width: 480px) {
+  #github-stats > div {
+    flex: 1 1 100% !important;
+  }
+}
+
 .github-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
