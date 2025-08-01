@@ -159,6 +159,40 @@ details[open] div {
   color: #666;
 }
 
+/*---------- ソーシャルリンク ----------*/
+
+.social-links a:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.social-links a[href*="github"]:hover {
+  background: #555 !important;
+}
+
+.social-links a[href*="linkedin"]:hover {
+  background: #0056b3 !important;
+}
+
+.social-links a[href*="mailto"]:hover {
+  background: #c82333 !important;
+}
+
+.social-links a[href*="bio-zan"]:hover {
+  background: #218838 !important;
+}
+
+@media (max-width: 480px) {
+  .social-links > div {
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .social-links a {
+    width: 100%;
+    justify-content: center;
+  }
+}
 
 /*---------- ページ全体の指定 ----------*/
 
