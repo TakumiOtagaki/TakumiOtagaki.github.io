@@ -242,10 +242,11 @@ body {
 /*---------- コンテンツ ----------*/
 
 #container {
-  width: 900px;
+  max-width: 1400px;
+  width: 95%;
   margin: 0 auto 0 auto;
   overflow: hidden;
-  padding: 6px 0 0 0;
+  padding: 6px 30px 0 30px;
   background-color: #ffffff;
 }
 
@@ -253,11 +254,10 @@ body {
 /*---------- メインコンテンツ ----------*/
 
 #contents {
-  float: right;
   margin: 0;
   padding: 0;
   font-size: 16px;
-  width: 650px;
+  width: 100%;
   letter-spacing: 0.05em;
   text-align: left;
   line-height: 1.7;
@@ -485,7 +485,7 @@ td.table_line {
   float: left;
   margin: 0 0 15px 0;
   padding: 0;
-  width: 230px;
+  width: 22%;
   text-align: left;
   letter-spacing: 0.05em;
   background-color: #ffffff;
