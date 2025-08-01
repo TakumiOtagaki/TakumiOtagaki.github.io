@@ -5,6 +5,87 @@
 @media screen and (min-width: 680px) {
 
 
+/*---------- GitHub Stats ----------*/
+
+.github-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 15px;
+  margin: 20px 0;
+}
+
+.stat-card {
+  background: #f8f9fa;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  border: 1px solid #e9ecef;
+}
+
+.stat-card h4 {
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  color: #666;
+  font-weight: normal;
+}
+
+.stat-number {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+}
+
+.languages-chart {
+  margin: 30px 0;
+}
+
+.languages-chart h4 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.language-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.language-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.language-name {
+  min-width: 80px;
+  text-align: left;
+  font-size: 14px;
+  color: #666;
+}
+
+.bar-container {
+  flex: 1;
+  height: 20px;
+  background: #e9ecef;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, #4f94d4 0%, #5aa7f7 100%);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.percentage {
+  min-width: 40px;
+  text-align: right;
+  font-size: 12px;
+  color: #666;
+}
+
+
 /*---------- ページ全体の指定 ----------*/
 
 body {
