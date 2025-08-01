@@ -39,6 +39,7 @@
     }
 
     // Layout
+    container.innerHTML = '<p style="text-align: center; color: #666; padding: 20px;">📊 GitHub統計を読み込み中...</p>';
     container.style.display = 'flex';
     container.style.flexWrap = 'wrap';
     container.style.justifyContent = 'space-between';
@@ -61,24 +62,64 @@
             page++;
         }
 
-        // Aggregate stars, forks, languages
+        // Aggregate stars, forks, languages, and additional stats
         let totalStars = 0;
         let totalForks = 0;
+        let totalWatchers = 0;
+        let totalIssues = 0;
+        let totalSize = 0; // in KB
+        let publicRepos = 0;
+        let forkedRepos = 0;
+        let originalRepos = 0;
         const langCount = {};
+        const recentRepos = [];
+        
         repos.forEach(repo => {
             totalStars += repo.stargazers_count;
             totalForks += repo.forks_count;
+            totalWatchers += repo.watchers_count;
+            totalIssues += repo.open_issues_count;
+            totalSize += repo.size;
+            
+            if (repo.fork) {
+                forkedRepos++;
+            } else {
+                originalRepos++;
+            }
+            
+            if (!repo.private) {
+                publicRepos++;
+            }
+            
             if (repo.language) {
                 langCount[repo.language] = (langCount[repo.language] || 0) + 1;
             }
+            
+            // 最近更新されたリポジトリ（上位5つ）
+            if (recentRepos.length < 5) {
+                recentRepos.push({
+                    name: repo.name,
+                    updated: new Date(repo.updated_at),
+                    stars: repo.stargazers_count,
+                    language: repo.language
+                });
+            }
         });
+        
+        // 最近更新されたリポジトリを日付順にソート
+        recentRepos.sort((a, b) => b.updated - a.updated);
 
         // Build cards
-        container.appendChild(createCard('Repositories', repos.length));
-        container.appendChild(createCard('Stars', totalStars));
-        container.appendChild(createCard('Forks', totalForks));
+        container.innerHTML = ''; // Clear loading message
+        container.appendChild(createCard('Public Repos', publicRepos));
+        container.appendChild(createCard('Original Repos', originalRepos));
+        container.appendChild(createCard('Forked Repos', forkedRepos));
+        container.appendChild(createCard('Total Stars', totalStars));
+        container.appendChild(createCard('Total Forks', totalForks));
         container.appendChild(createCard('Followers', user.followers));
         container.appendChild(createCard('Following', user.following));
+        container.appendChild(createCard('Open Issues', totalIssues));
+        container.appendChild(createCard('Total Size', `${(totalSize / 1024).toFixed(1)} MB`));
 
         // Language distribution list
         const langCard = document.createElement('div');
@@ -110,7 +151,19 @@
         container.appendChild(langCard);
 
     } catch (err) {
-        console.error(err);
-        container.textContent = 'Error loading GitHub stats.';
+        console.error('GitHub Stats Error:', err);
+        container.innerHTML = `
+            <div style="text-align: center; padding: 20px; background: #fff5f5; border: 1px solid #fed7d7; border-radius: 6px;">
+                <h4 style="color: #d73a49; margin: 0 0 10px 0;">GitHub統計の読み込みに失敗しました</h4>
+                <p style="color: #666; margin: 0; font-size: 14px;">
+                    GitHub APIの制限またはネットワークエラーが発生しました。<br>
+                    しばらく時間をおいてから再度お試しください。
+                </p>
+                <p style="color: #666; margin: 10px 0 0 0; font-size: 12px;">
+                    エラー詳細: ${err.message}
+                </p>
+            </div>
+        `;
+        container.setAttribute('data-error', 'true');
     }
 })();

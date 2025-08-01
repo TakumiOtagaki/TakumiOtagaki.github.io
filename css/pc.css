@@ -7,6 +7,62 @@
 
 /*---------- GitHub Stats ----------*/
 
+/* GitHub統計コンテナ */
+#github-stats {
+  margin: 20px 0;
+}
+
+/* エラー表示のスタイル調整 */
+#github-stats[data-error="true"] {
+  background: #fff5f5;
+  border: 1px solid #fed7d7;
+  border-radius: 6px;
+  padding: 20px;
+  text-align: center;
+  color: #d73a49;
+}
+
+/* 詳細表示の調整 */
+details {
+  margin: 10px 0;
+}
+
+details summary {
+  padding: 10px;
+  background: #f6f8fa;
+  border: 1px solid #e1e4e8;
+  border-radius: 6px;
+  outline: none;
+}
+
+details summary:hover {
+  background: #e1e4e8;
+}
+
+details[open] summary {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+details[open] div {
+  border: 1px solid #e1e4e8;
+  border-top: none;
+  border-radius: 0 0 6px 6px;
+  padding: 15px;
+  background: white;
+}
+
+/* レスポンシブ対応 */
+@media (max-width: 680px) {
+  #github-stats {
+    margin: 10px 0;
+  }
+  
+  details summary {
+    font-size: 14px;
+  }
+}
+
 .github-stats-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
