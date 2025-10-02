@@ -83,6 +83,7 @@ p {
         color: #333333;
         letter-spacing: 0.05em;
         -webkit-text-size-adjust: 100%;
+        overflow-x: hidden;
     }
     /*---------- メイン ----------*/
     #main {
@@ -238,6 +239,15 @@ p {
     #contents {
         padding: 13px 6px 10px 6px;
         font-size: 1em;
+        word-break: break-word;
+        overflow-wrap: anywhere;
+    }
+
+    #contents p,
+    #contents li,
+    #contents a {
+        word-break: break-word;
+        overflow-wrap: anywhere;
     }
     .article {
         margin: 0;
@@ -363,6 +373,7 @@ p {
         display: block;
         clear: both;
         margin: 20px auto 20px auto;
+        float: none !important;
     }
     img.picture_r {
         display: block;

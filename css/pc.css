@@ -205,6 +205,7 @@ body {
   color: #333333;
   background-color: #ffffff;
   -webkit-text-size-adjust: none;
+  overflow-x: hidden;
 }
 
 .img_a {
@@ -450,6 +451,15 @@ body {
   letter-spacing: 0.05em;
   text-align: left;
   line-height: 1.7;
+  word-break: break-word;
+  overflow-wrap: anywhere;
+}
+
+#contents p,
+#contents li,
+#contents a {
+  word-break: break-word;
+  overflow-wrap: anywhere;
 }
 
 #contents #pannavi {
