@@ -1514,7 +1514,7 @@ span.mark_brown_b {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: linear-gradient(to bottom, #8B4513, #D2B48C);
+  background: linear-gradient(to bottom, #2ca7a0, #7bc0ff);
 }
 
 .timeline-item {
@@ -1527,7 +1527,7 @@ span.mark_brown_b {
 .timeline-date {
   min-width: 100px;
   font-weight: bold;
-  color: #8B4513;
+  color: #1f6f8b;
   font-size: 14px;
   margin-right: 20px;
   text-align: right;
@@ -1537,8 +1537,8 @@ span.mark_brown_b {
 .timeline-content {
   position: relative;
   flex: 1;
-  background: #fff8e3;
-  border: 1px solid #e6d5b8;
+  background: #f4f9ff;
+  border: 1px solid #d6e8ff;
   border-radius: 8px;
   padding: 10px 15px;
   margin-left: 15px;
@@ -1554,7 +1554,7 @@ span.mark_brown_b {
   height: 0;
   border-top: 8px solid transparent;
   border-bottom: 8px solid transparent;
-  border-right: 8px solid #fff8e3;
+  border-right: 8px solid #f4f9ff;
 }
 
 .timeline-marker {
@@ -1563,7 +1563,7 @@ span.mark_brown_b {
   top: 15px;
   width: 12px;
   height: 12px;
-  background: #8B4513;
+  background: #2ca7a0;
   border: 3px solid #fff;
   border-radius: 50%;
   box-shadow: 0 2px 4px rgba(0,0,0,0.2);
