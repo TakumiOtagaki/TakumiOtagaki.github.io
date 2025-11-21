@@ -1579,6 +1579,11 @@ span.mark_brown_b {
   box-shadow: 0 2px 8px rgba(65, 105, 225, 0.4);
 }
 
+.timeline-marker.publication {
+  background: #ff7f50;
+  box-shadow: 0 2px 8px rgba(255, 127, 80, 0.4);
+}
+
 .timeline-content p {
   margin: 0;
   line-height: 1.6;
